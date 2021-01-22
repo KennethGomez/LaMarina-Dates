@@ -182,5 +182,8 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+        'student'               => 'alumno',
+        'tutor'                 => 'tutor',
+        'course'                => 'curso',
     ],
 ];
