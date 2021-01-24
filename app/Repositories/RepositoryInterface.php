@@ -16,6 +16,14 @@ interface RepositoryInterface
     public function all();
 
     /**
+     * Return paginated element from database
+     *
+     * @param int $number
+     * @return mixed
+     */
+    public function paginated(int $number);
+
+    /**
      * Create a new record for the database
      *
      * @param array $data

@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::resource('/appointments', App\Http\Controllers\AppointmentController::class);

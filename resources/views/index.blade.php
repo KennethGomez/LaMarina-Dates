@@ -13,17 +13,7 @@
                 <h5 class="card-title">{{ __('Formulario de reserva') }}</h5>
                 <h6 class="card-subtitle mb-4 text-muted">{{ __('Para pedir cita, rellene este formulario y el equipo de') }} {{ config('app.name') }} {{ __('recibirá los datos de la cita') }}</h6>
 
-                @error('error')
-                <div class="alert alert-danger" role="alert">
-                    {{ $message }}
-                </div>
-                @enderror
-
-                @if(session('success') == true)
-                    <div class="alert alert-success" role="alert">
-                        {{ __('La cita se ha guardado correctamente') }}
-                    </div>
-                @endif
+                @include('includes.error-alerts')
 
                 <form method="post" action="{{ route('appointments.store') }}">
                     @csrf

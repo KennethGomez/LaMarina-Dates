@@ -12,7 +12,7 @@ abstract class AbstractRepository
      *
      * @var Model
      */
-    protected $model;
+    protected Model $model;
 
     /**
      * AbstractRepository constructor.
@@ -32,6 +32,16 @@ abstract class AbstractRepository
     public function all()
     {
         return $this->model->all();
+    }
+
+    /**
+     * Return paginated element from database
+     *
+     * @param int $number
+     * @return mixed
+     */
+    public function paginated(int $number) {
+        return $this->model->simplePaginate($number);
     }
 
     /**
