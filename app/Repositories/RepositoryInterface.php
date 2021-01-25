@@ -19,9 +19,10 @@ interface RepositoryInterface
      * Return paginated element from database
      *
      * @param int $number
+     * @param string|null $orderBy
      * @return mixed
      */
-    public function paginated(int $number);
+    public function paginated(int $number, string $orderBy = null);
 
     /**
      * Create a new record for the database

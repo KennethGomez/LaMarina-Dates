@@ -23,5 +23,7 @@
     <div id="app">
         @yield('content-base')
     </div>
+
+    @stack('js')
 </body>
 </html>

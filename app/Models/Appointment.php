@@ -20,5 +20,17 @@ class Appointment extends Model
         'course',
         'email',
         'date',
+        'phone',
+        'date_id',
+        'date_hour',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date' => 'datetime',
     ];
 }

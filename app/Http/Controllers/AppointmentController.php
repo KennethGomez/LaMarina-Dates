@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Repositories\Appointment\AppointmentRepositoryInterface;
+use App\Repositories\Date\DateRepositoryInterface;
 use Carbon\Carbon;
 use Carbon\Exceptions\Exception;
 use Illuminate\Contracts\Support\Renderable;
@@ -17,12 +18,20 @@ class AppointmentController extends Controller
     private AppointmentRepositoryInterface $repository;
 
     /**
-     * AppointmentController constructor.
-     * @param AppointmentRepositoryInterface $repository
+     * @var DateRepositoryInterface
      */
-    public function __construct(AppointmentRepositoryInterface $repository)
+    private DateRepositoryInterface $dateRepository;
+
+    /**
+     * AppointmentController constructor.
+     *
+     * @param AppointmentRepositoryInterface $repository
+     * @param DateRepositoryInterface $dateRepository
+     */
+    public function __construct(AppointmentRepositoryInterface $repository, DateRepositoryInterface $dateRepository)
     {
         $this->repository = $repository;
+        $this->dateRepository = $dateRepository;
 
         $this->middleware('auth')->except('store');
     }
@@ -34,7 +43,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = $this->repository->paginated(20);
+        $appointments = $this->repository->paginated(20, 'date');
 
         return view('appointments.index', compact('appointments'));
     }
@@ -52,19 +61,15 @@ class AppointmentController extends Controller
             'student' => 'required',
             'course' => 'required',
             'email' => 'required|email',
+            'phone' => 'required',
             'month' => 'required|numeric',
             'day' => 'required|numeric',
             'hour' => 'required|numeric',
         ]);
 
         try {
-            $data = [
-                'tutor' => $validated['tutor'],
-                'student' => $validated['student'],
-                'course' => $validated['course'],
-                'email' => $validated['email'],
-                'date' => Carbon::create(null, $validated['month'], $validated['day'], $validated['hour'])
-            ];
+            $date = $this->dateRepository->for($validated['month'], $validated['day'], $validated['hour']);
+            $data = $this->repository->fromValidationData($validated, $date);
 
             $this->repository->create($data);
 

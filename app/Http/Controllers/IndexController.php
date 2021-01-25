@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Appointment\AppointmentRepositoryInterface;
+use App\Repositories\Date\DateRepositoryInterface;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    /**
+     * @var DateRepositoryInterface
+     */
+    private DateRepositoryInterface $dateRepository;
+
+    /**
+     * IndexController constructor.
+     *
+     * @param DateRepositoryInterface $dateRepository
+     */
+    public function __construct(DateRepositoryInterface $dateRepository)
+    {
+        $this->dateRepository = $dateRepository;
+    }
+
     /**
      * Show the application index page.
      *
@@ -15,6 +29,8 @@ class IndexController extends Controller
      */
     public function index(): Renderable
     {
-        return view('index');
+        $available = $this->dateRepository->available();
+
+        return view('index', compact('available'));
     }
 }

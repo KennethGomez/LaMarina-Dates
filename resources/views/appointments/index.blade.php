@@ -14,18 +14,20 @@
                 <th scope="col">{{ __('Estudiante') }}</th>
                 <th scope="col">{{ __('Curso') }}</th>
                 <th scope="col">{{ __('Email') }}</th>
+                <th scope="col">{{ __('Número de teléfono') }}</th>
                 <th scope="col">{{ __('Fecha') }}</th>
                 <th scope="col">{{ __('Acciones') }}</th>
             </tr>
             </thead>
             <tbody>
             @forelse($appointments as $appointment)
-                <tr>
+                <tr class="@if(now()->timestamp - $appointment->date->timestamp > 0) table-bg-accent @endif">
                     <th scope="row">{{ $loop->index + 1 }}</th>
                     <td>{{ $appointment->tutor }}</td>
                     <td>{{ $appointment->student }}</td>
                     <td>{{ $appointment->course }}</td>
                     <td>{{ $appointment->email }}</td>
+                    <td>{{ $appointment->phone }}</td>
                     <td>{{ $appointment->date }}</td>
                     <td>
                         <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST">

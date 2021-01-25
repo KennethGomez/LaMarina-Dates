@@ -38,10 +38,11 @@ abstract class AbstractRepository
      * Return paginated element from database
      *
      * @param int $number
+     * @param string|null $orderBy
      * @return mixed
      */
-    public function paginated(int $number) {
-        return $this->model->simplePaginate($number);
+    public function paginated(int $number, string $orderBy = null) {
+        return $this->model->orderBy($orderBy ?? $this->model->getKeyName())->simplePaginate($number);
     }
 
     /**
