@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\AppException;
 use App\Exceptions\Date\DateNotAvailableException;
+use App\Http\Requests\Appointments\StoreAppointmentRequest;
+use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Repositories\Appointment\AppointmentRepositoryInterface;
 use App\Repositories\Date\DateRepositoryInterface;
@@ -58,18 +60,9 @@ class AppointmentController extends Controller
      *
      * @throws AppException|DateNotAvailableException
      */
-    public function store(Request $request)
+    public function store(StoreAppointmentRequest $request)
     {
-        $validated = $request->validate([
-            'tutor' => 'required',
-            'student' => 'required',
-            'course' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'month' => 'required|numeric',
-            'day' => 'required|numeric',
-            'hour' => 'required|numeric',
-        ]);
+        $validated = $request->validated();
 
         try {
             $date = $this->dateRepository->for($validated['month'], $validated['day'], $validated['hour']);
