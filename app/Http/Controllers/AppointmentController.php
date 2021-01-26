@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\AppException;
 use App\Exceptions\Date\DateNotAvailableException;
 use App\Http\Requests\Appointments\StoreAppointmentRequest;
-use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Repositories\Appointment\AppointmentRepositoryInterface;
 use App\Repositories\Date\DateRepositoryInterface;
