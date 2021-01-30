@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AppException;
+use App\Exceptions\Date\DateNotAvailableException;
+use App\Http\Requests\Appointments\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Repositories\Appointment\AppointmentRepositoryInterface;
 use App\Repositories\Date\DateRepositoryInterface;
-use Carbon\Carbon;
 use Carbon\Exceptions\Exception;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -41,7 +44,7 @@ class AppointmentController extends Controller
      *
      * @return Renderable
      */
-    public function index()
+    public function index(): Renderable
     {
         $appointments = $this->repository->paginated(20, 'date');
 
@@ -52,20 +55,13 @@ class AppointmentController extends Controller
      * Stores an appointment to database
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|object
+     * @return RedirectResponse|object
+     *
+     * @throws AppException|DateNotAvailableException
      */
-    public function store(Request $request)
+    public function store(StoreAppointmentRequest $request)
     {
-        $validated = $request->validate([
-            'tutor' => 'required',
-            'student' => 'required',
-            'course' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'month' => 'required|numeric',
-            'day' => 'required|numeric',
-            'hour' => 'required|numeric',
-        ]);
+        $validated = $request->validated();
 
         try {
             $date = $this->dateRepository->for($validated['month'], $validated['day'], $validated['hour']);
@@ -78,10 +74,7 @@ class AppointmentController extends Controller
                 ->setStatusCode(201)
                 ->with(['success' => __('La cita se ha guardado exitosamente')]);
         } catch (Exception) {
-            return redirect()
-                ->route('index')
-                ->setStatusCode(400)
-                ->withErrors(['error' => __('Error indefinido, contacte con un administrador')]);
+            throw new AppException();
         }
     }
 
@@ -89,7 +82,9 @@ class AppointmentController extends Controller
      * Destroys an appointment of the database
      *
      * @param Appointment $appointment
-     * @return \Illuminate\Http\RedirectResponse|object
+     * @return RedirectResponse|object
+     *
+     * @throws AppException
      */
     public function destroy(Appointment $appointment)
     {
@@ -101,10 +96,7 @@ class AppointmentController extends Controller
                 ->setStatusCode(201)
                 ->with(['success' => __('La cita se ha eliminado exitosamente')]);
         } catch (\Exception) {
-            return redirect()
-                ->route('appointments.index')
-                ->setStatusCode(400)
-                ->withErrors(['error' => __('Error indefinido, contacte con un administrador')]);
+            throw new AppException();
         }
     }
 }

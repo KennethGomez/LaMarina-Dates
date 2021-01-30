@@ -22,7 +22,7 @@
             <tbody>
             @forelse($appointments as $appointment)
                 <tr class="@if(now()->timestamp - $appointment->date->timestamp > 0) table-bg-accent @endif">
-                    <th scope="row">{{ $loop->index + 1 }}</th>
+                    <th scope="row">ID#{{ $appointment->id }}</th>
                     <td>{{ $appointment->tutor }}</td>
                     <td>{{ $appointment->student }}</td>
                     <td>{{ $appointment->course }}</td>

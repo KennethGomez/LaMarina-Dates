@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use App\Exceptions\Date\DateNotAvailableException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -34,7 +33,7 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (DateNotAvailableException $e) {
+        $this->reportable(function (AppException $e) {
             //
         })->stop();
     }

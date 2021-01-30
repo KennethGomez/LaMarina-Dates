@@ -4,18 +4,15 @@
 namespace App\Exceptions\Date;
 
 
-use Exception;
-use Illuminate\Http\RedirectResponse;
+use App\Exceptions\AppException;
 
-class DateNotAvailableException extends Exception
+class DateNotAvailableException extends AppException
 {
     /**
-     * Render the exception into an HTTP response.
-     *
-     * @return RedirectResponse
+     * DateNotAvailableException constructor.
      */
-    public function render(): RedirectResponse
+    public function __construct()
     {
-        return redirect()->back()->withInput()->withErrors(['error' => __('La cita seleccionada no está disponible')]);
+        parent::__construct(__('La cita seleccionada no está disponible'));
     }
 }
