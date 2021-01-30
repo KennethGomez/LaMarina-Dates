@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container">
+    <div class="mx-4">
 
         @include('includes.error-alerts')
 
