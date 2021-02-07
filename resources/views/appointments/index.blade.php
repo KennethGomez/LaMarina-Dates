@@ -44,7 +44,7 @@
             </tbody>
         </table>
 
-        <div class="float-right">
+        <div class="float-right mb-4 mr-4">
             {{ $appointments->links() }}
         </div>
     </div>
